@@ -38,7 +38,7 @@ export default function Dashboard() {
         </Grid>
 
         <Grid item xs={12} md={4}>
-          <Paper >
+          <Paper>
             <BarChart />
           </Paper>
         </Grid>

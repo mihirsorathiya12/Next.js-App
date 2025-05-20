@@ -40,7 +40,7 @@ export default function CustomLineChart() {
 </Box>
     
      
-        <ResponsiveContainer width={500} height={300}>
+        <ResponsiveContainer width={500} height={310}>
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />

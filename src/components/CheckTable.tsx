@@ -1,5 +1,5 @@
 "use client";
-
+import { GridLegacy as Grid } from '@mui/material';
 import React from "react";
 import {
   Paper,
@@ -10,7 +10,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Grid,
+  
 } from "@mui/material";
 
 

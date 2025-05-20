@@ -34,7 +34,7 @@ export default function CustomPieChart() {
           Your Pie Chart
         </Typography>
         {/* Responsive auto height */}
-        <ResponsiveContainer width="100%" aspect={1.2}>
+        <ResponsiveContainer width="100%" aspect={1.4}>
           <PieChart>
             <Pie
               data={data}

@@ -63,7 +63,7 @@ export default function TrafficCard() {
         </Grid>
 
         {/* Responsive chart  */}
-        <ResponsiveContainer className='aaaa' width="100%" aspect={2}>
+        <ResponsiveContainer  width="100%" aspect={1.5}>
           <BarChart data={data}>
             <XAxis dataKey="name" hide />
             <Bar
