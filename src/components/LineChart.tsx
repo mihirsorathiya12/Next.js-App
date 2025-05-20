@@ -24,7 +24,7 @@ export default function CustomLineChart() {
       <Box display="flex" justifyContent="space-between" alignItems="center">
     
   
-    <Box flex={1}>
+    <Box flex={1} >
       <Typography variant="h6" fontWeight={600} gutterBottom>
         This Month
       </Typography>
@@ -39,7 +39,7 @@ export default function CustomLineChart() {
       </Typography>
 </Box>
     
-      <Box display="flex" justifyContent="flex-end">
+     
         <ResponsiveContainer width={500} height={300}>
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -49,7 +49,7 @@ export default function CustomLineChart() {
             <Line type="monotone" dataKey="value" stroke="#8884d8" />
           </LineChart>
         </ResponsiveContainer>
-      </Box>
+     
       </Box>
     </Paper>
   );
