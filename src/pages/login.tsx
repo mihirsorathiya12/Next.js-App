@@ -31,7 +31,7 @@ export default function Login() {
       // Login successful
       localStorage.setItem("isAuthenticated", "true");
       localStorage.setItem("username", storedUser.username);
-      router.push("/dashboard"); // navigate to dashboard only after login success
+      router.push("/dashboard"); 
     },
     [email, password, router]
   );

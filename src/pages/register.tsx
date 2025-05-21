@@ -1,4 +1,4 @@
-// pages/register.tsx
+
 "use client";
 import { GridLegacy as Grid } from '@mui/material';
 import Link from 'next/link';
