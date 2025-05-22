@@ -6,11 +6,13 @@ import { TextField } from "@mui/material";
 export interface CommonNumberFieldProps {
   label: string;
   name: string;
-  value: number | string; 
+  value: number | string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
-  min?: number;  
-  max?: number; 
+  min?: number;
+  max?: number;
+  fullWidth?: boolean; 
+  sx?: object; 
 }
 
 const CommonNumberField: React.FC<CommonNumberFieldProps> = ({
@@ -21,6 +23,8 @@ const CommonNumberField: React.FC<CommonNumberFieldProps> = ({
   required = false,
   min,
   max,
+  fullWidth = true, 
+  sx = {}, //
 }) => {
   return (
     <TextField
@@ -31,7 +35,8 @@ const CommonNumberField: React.FC<CommonNumberFieldProps> = ({
       type="number"
       required={required}
       inputProps={{ min, max }}
-      fullWidth
+      fullWidth={fullWidth} 
+       sx={{ width: '100%', height: '80px' }}
     />
   );
 };

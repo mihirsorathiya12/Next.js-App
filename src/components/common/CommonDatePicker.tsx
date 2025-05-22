@@ -1,8 +1,7 @@
-    
 "use client";
 
 import React from "react";
-import { TextField } from "@mui/material";
+import { TextField, SxProps, Theme } from "@mui/material";
 
 interface CommonDatePickerProps {
   label: string;
@@ -12,6 +11,8 @@ interface CommonDatePickerProps {
   required?: boolean;
   min?: string; 
   max?: string; 
+  fullWidth?: boolean;
+  sx?: SxProps<Theme>;
 }
 
 const CommonDatePicker: React.FC<CommonDatePickerProps> = ({
@@ -22,6 +23,8 @@ const CommonDatePicker: React.FC<CommonDatePickerProps> = ({
   required = false,
   min,
   max,
+  fullWidth,
+  sx,
 }) => {
   return (
     <TextField
@@ -36,7 +39,8 @@ const CommonDatePicker: React.FC<CommonDatePickerProps> = ({
         min,
         max,
       }}
-      fullWidth
+      fullWidth={fullWidth}
+      sx={{ width: '100%', height: '80px' }}
     />
   );
 };

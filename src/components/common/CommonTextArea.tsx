@@ -1,4 +1,3 @@
-
 import { TextField, TextFieldProps } from "@mui/material";
 import React from "react";
 
@@ -7,6 +6,8 @@ type CommonTextAreaProps = TextFieldProps & {
   name: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  fullWidth?: boolean;
+  sx?: object;
 };
 
 const CommonTextArea: React.FC<CommonTextAreaProps> = ({
@@ -14,17 +15,20 @@ const CommonTextArea: React.FC<CommonTextAreaProps> = ({
   name,
   value,
   onChange,
+  fullWidth = true,
+  sx = {},
   ...rest
 }) => {
   return (
     <TextField
-      fullWidth
       multiline
       minRows={3}
       label={label}
       name={name}
       value={value}
       onChange={onChange}
+      fullWidth={fullWidth}
+     sx={{ width: '100%'  }}
       {...rest}
     />
   );

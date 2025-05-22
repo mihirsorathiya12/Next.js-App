@@ -24,8 +24,8 @@ interface FormValues {
   country: string;
   gender: string;
   termsAccepted: boolean;
-  age: number | ""; 
-  birthDate: string; 
+  age: number | ""; // age can be number or empty string
+  birthDate: string; // <-- Add birthDate here as string (yyyy-mm-dd)
 }
 
 const countryOptions = [
@@ -101,6 +101,8 @@ const CommonForm: React.FC = () => {
                 onChange={handleChange}
                 type="email"
                 required
+                 fullWidth={false}
+                 sx={{ mt: 3 }}
               />
             </Grid>
 
@@ -112,7 +114,7 @@ const CommonForm: React.FC = () => {
                 onChange={handleChange}
                 required
                 min="1900-01-01"
-                max={new Date().toISOString().split("T")[0]} // today
+                max={new Date().toISOString().split("T")[0]} 
               />
             </Grid>
 
@@ -124,7 +126,9 @@ const CommonForm: React.FC = () => {
                 onChange={handleChange}
                 required
                 min={0}
-                max={120}
+                max={100}
+                fullWidth={false}
+                sx={{ mt: 5 }}
               />
             </Grid>
 
@@ -135,9 +139,11 @@ const CommonForm: React.FC = () => {
                 value={formValues.country}
                 onChange={handleDropdownChange}
                 options={countryOptions}
+                 fullWidth={false}
+                sx={{ mt: 2 }}
               />
             </Grid>
-
+            
             <Grid item xs={12}>
               <CommonRadioGroup
                 label="Gender"
@@ -150,11 +156,13 @@ const CommonForm: React.FC = () => {
             
             <Grid item xs={12}>
               <CommonTextArea
-                label="Message"
-                name="bio"
+                label="Description"
+                name="description"
                 value={formValues.bio}
                 onChange={handleChange}
                 rows={4}
+                 fullWidth={false}
+                 sx={{ mt: 2 }}
               />
             </Grid>
 

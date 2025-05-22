@@ -19,6 +19,8 @@ interface CommonDropdownProps {
   value: string;
   onChange: (event: SelectChangeEvent) => void;
   options: Option[];
+  fullWidth?: boolean; 
+  sx?: object; 
 }
 
 const CommonDropdown: React.FC<CommonDropdownProps> = ({
@@ -27,9 +29,11 @@ const CommonDropdown: React.FC<CommonDropdownProps> = ({
   value,
   onChange,
   options,
+  fullWidth = true, 
+  sx = {}, 
 }) => {
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth={fullWidth} sx={{ width: '100%', height: '80px' }}>
       <InputLabel>{label}</InputLabel>
       <Select
         label={label}
