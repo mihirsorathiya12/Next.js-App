@@ -4,7 +4,7 @@ import React from "react";
 type CommonTextFieldProps = TextFieldProps & {
   label: string;
   name: string;
-  value: string;
+  value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   fullWidth?: boolean;
   sx?: object;
@@ -26,7 +26,7 @@ const CommonTextField: React.FC<CommonTextFieldProps> = ({
       value={value}
       onChange={onChange}
       fullWidth={fullWidth}
-      sx={{ width: '100%', height: '80px',  }}
+      sx={{ width: "100%", height: "80px", ...sx }}
       {...rest}
     />
   );

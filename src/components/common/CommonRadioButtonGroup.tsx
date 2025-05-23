@@ -1,16 +1,9 @@
-
-import {
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-} from "@mui/material";
 import React from "react";
+import { RadioGroup, FormControlLabel, Radio, FormLabel, FormControl } from "@mui/material";
 
-interface RadioOption {
-  label: string;
+interface Option {
   value: string;
+  label: string;
 }
 
 interface CommonRadioButtonGroupProps {
@@ -18,7 +11,8 @@ interface CommonRadioButtonGroupProps {
   name: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  options: RadioOption[];
+  options: Option[];
+  required?: boolean;  
 }
 
 const CommonRadioButtonGroup: React.FC<CommonRadioButtonGroupProps> = ({
@@ -27,16 +21,17 @@ const CommonRadioButtonGroup: React.FC<CommonRadioButtonGroupProps> = ({
   value,
   onChange,
   options,
+  required = false,
 }) => {
   return (
-    <FormControl component="fieldset">
+    <FormControl component="fieldset" required={required}>
       <FormLabel component="legend">{label}</FormLabel>
-      <RadioGroup name={name} value={value} onChange={onChange}>
+      <RadioGroup name={name} value={value} onChange={onChange} row>
         {options.map((option) => (
           <FormControlLabel
             key={option.value}
             value={option.value}
-            control={<Radio />}
+            control={<Radio required={required} />}
             label={option.label}
           />
         ))}

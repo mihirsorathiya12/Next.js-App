@@ -3,9 +3,16 @@ import React from "react";
 
 interface CommonButtonProps extends ButtonProps {
   label: string;
+  fullWidth?: boolean;
+  sx?: object;
 }
 
-const CommonButton: React.FC<CommonButtonProps> = ({ label, fullWidth, sx, ...rest }) => {
+const CommonButton: React.FC<CommonButtonProps> = ({
+  label,
+  fullWidth = true, 
+  sx = {},
+  ...rest
+}) => {
   return (
     <Button variant="contained" fullWidth={fullWidth} sx={sx} {...rest}>
       {label}

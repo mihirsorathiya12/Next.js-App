@@ -17,50 +17,119 @@ import CommonCheckbox from "../components/common/CommonCheckbox";
 import CommonNumberField from "../components/common/CommonNumberField";
 import CommonDatePicker from "../components/common/CommonDatePicker";
 
-interface FormValues {
-  email: string;
-  password: string;
-  bio: string;
-  country: string;
-  gender: string;
-  termsAccepted: boolean;
-  age: number | ""; // age can be number or empty string
-  birthDate: string; // <-- Add birthDate here as string (yyyy-mm-dd)
+
+interface FieldConfig {
+  type: string; 
+  label: string;
+  name: string;
+  required?: boolean;
+  options?: { value: string; label: string }[]; 
+  min?: number | string;
+  max?: number | string;
+  fullWidth?: boolean;
+  sx?: object;
 }
 
-const countryOptions = [
-  { value: "", label: "Select Country" },
-  { value: "india", label: "India" },
-  { value: "usa", label: "USA" },
-  { value: "canada", label: "Canada" },
-];
 
-const genderOptions = [
-  { value: "male", label: "Male" },
-  { value: "female", label: "Female" },
-  { value: "other", label: "Other" },
+interface FormValues {
+  [key: string]: any;
+}
+
+const formFields: FieldConfig[] = [
+  {
+    type: "text",
+    label: "Email",
+    name: "email",
+    required: true,
+    fullWidth: false,
+    sx: { mt: 3 },
+  },
+  {
+    type: "date",
+    label: "Birth Date",
+    name: "birthDate",
+    required: true,
+    min: "1900-01-01",
+    max: new Date().toISOString().split("T")[0],
+  },
+  {
+    type: "number",
+    label: "Age",
+    name: "age",
+    required: true,
+    min: 0,
+    max: 100,
+    fullWidth: false,
+    sx: { mt: 1 ,width: "100%",height: '50px',},
+  },
+  {
+    type: "dropdown",
+    label: "Country",
+    name: "country",
+    required: false,
+    options: [
+      { value: "", label: "Select Country" },
+      { value: "india", label: "India" },
+      { value: "usa", label: "USA" },
+      { value: "canada", label: "Canada" },
+    ],
+    fullWidth: false,
+    sx: { mt: 2, width: "100%",height: '50px', },
+  },
+  {
+    type: "radio",
+    label: "Gender",
+    name: "gender",
+    required: false,
+    options: [
+      { value: "male", label: "Male" },
+      { value: "female", label: "Female" },
+      { value: "other", label: "Other" },
+    ],
+  },
+  {
+    type: "textarea",
+    label: "Description",
+    name: "bio",
+    required: false,
+    fullWidth: false,
+    sx: { mt: 2 },
+  },
+  {
+    type: "checkbox",
+    label: "I accept the terms & conditions",
+    name: "termsAccepted",
+    required: false,
+  },
 ];
 
 const CommonForm: React.FC = () => {
-  const [formValues, setFormValues] = useState<FormValues>({
-    email: "",
-    password: "",
-    bio: "",
-    country: "",
-    gender: "",
-    termsAccepted: false,
-    age: "",       
-    birthDate: "",  
+  
+  const initialFormValues: FormValues = {};
+  formFields.forEach((field) => {
+    if (field.type === "checkbox") initialFormValues[field.name] = false;
+    else if (field.type === "number") initialFormValues[field.name] = "";
+    else initialFormValues[field.name] = "";
   });
+
+  const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
+    const target = e.target as HTMLInputElement; 
+    const { name, value, type, checked } = target;
 
     setFormValues((prev) => ({
       ...prev,
-      [name]: name === "age" ? (value === "" ? "" : Number(value)) : value,
+      [name]:
+        type === "checkbox"
+          ? checked
+          : name === "age"
+          ? value === ""
+            ? ""
+            : Number(value)
+          : value,
     }));
   };
 
@@ -72,119 +141,147 @@ const CommonForm: React.FC = () => {
     }));
   };
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormValues((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.checked,
-    }));
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     alert("Form submitted! Check console for data.");
     console.log("Submitted values:", formValues);
   };
 
+ 
+  const renderField = (field: FieldConfig) => {
+    switch (field.type) {
+      case "text":
+        return (
+          <CommonTextField
+            key={field.name}
+            label={field.label}
+            name={field.name}
+            value={formValues[field.name]}
+            onChange={handleChange}
+            required={field.required}
+            fullWidth={field.fullWidth}
+            sx={field.sx}
+            type={field.name === "email" ? "email" : "text"}
+          />
+        );
+
+      case "textarea":
+        return (
+          <CommonTextArea
+            key={field.name}
+            label={field.label}
+            name={field.name}
+            value={formValues[field.name]}
+            onChange={handleChange}
+            required={field.required}
+            fullWidth={field.fullWidth}
+            sx={field.sx}
+            rows={4}
+          />
+        );
+
+      case "dropdown":
+        return (
+          <CommonDropdown
+            key={field.name}
+            label={field.label}
+            name={field.name}
+            value={formValues[field.name]}
+            onChange={handleDropdownChange}
+            options={field.options || []}
+            required={field.required}
+            fullWidth={field.fullWidth}
+            sx={field.sx}
+          />
+        );
+
+      case "radio":
+        return (
+          <CommonRadioGroup
+            key={field.name}
+            label={field.label}
+            name={field.name}
+            value={formValues[field.name]}
+            onChange={handleChange}
+            options={field.options || []}
+            required={field.required}
+          />
+        );
+
+      case "checkbox":
+        return (
+          <FormControlLabel
+            key={field.name}
+            control={
+              <CommonCheckbox
+                name={field.name}
+                checked={formValues[field.name]}
+                onChange={handleChange}
+                required={field.required}
+              />
+            }
+            label={field.label}
+          />
+        );
+
+      case "number":
+        return (
+          <CommonNumberField
+            key={field.name}
+            label={field.label}
+            name={field.name}
+            value={formValues[field.name]}
+            onChange={handleChange}
+            required={field.required}
+            min={field.min as number}
+            max={field.max as number}
+            fullWidth={field.fullWidth}
+            sx={field.sx}
+          />
+        );
+
+      case "date":
+        return (
+          <CommonDatePicker
+            key={field.name}
+            label={field.label}
+            name={field.name}
+            value={formValues[field.name]}
+            onChange={handleChange}
+            required={field.required}
+            min={field.min as string}
+            max={field.max as string}
+            fullWidth={field.fullWidth}
+            sx={field.sx}
+          />
+        );
+
+      default:
+        return null;
+    }
+  };
+
   return (
     <Grid container justifyContent="center" alignItems="center" height="100vh">
       <Card sx={{ p: 4, width: 700 }}>
         <Typography variant="h5" align="center" gutterBottom>
-          Common Components
+          Dynamic Common Components Form
         </Typography>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <CommonTextField
-                label="Email"
-                name="email"
-                value={formValues.email}
-                onChange={handleChange}
-                type="email"
-                required
-                 fullWidth={false}
-                 sx={{ mt: 3 }}
-              />
-            </Grid>
+            {formFields.map((field) => (
+              <Grid item xs={12} key={field.name}>
+                {renderField(field)}
+              </Grid>
+            ))}
 
             <Grid item xs={12}>
-              <CommonDatePicker
-                label="Birth Date"
-                name="birthDate"
-                value={formValues.birthDate}
-                onChange={handleChange}
-                required
-                min="1900-01-01"
-                max={new Date().toISOString().split("T")[0]} 
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <CommonNumberField
-                label="Age"
-                name="age"
-                value={formValues.age}
-                onChange={handleChange}
-                required
-                min={0}
-                max={100}
-                fullWidth={false}
-                sx={{ mt: 5 }}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <CommonDropdown
-                label="Country"
-                name="country"
-                value={formValues.country}
-                onChange={handleDropdownChange}
-                options={countryOptions}
-                 fullWidth={false}
-                sx={{ mt: 2 }}
-              />
-            </Grid>
-            
-            <Grid item xs={12}>
-              <CommonRadioGroup
-                label="Gender"
-                name="gender"
-                value={formValues.gender}
-                onChange={handleChange}
-                options={genderOptions}
-              />
-            </Grid>
-            
-            <Grid item xs={12}>
-              <CommonTextArea
-                label="Description"
-                name="description"
-                value={formValues.bio}
-                onChange={handleChange}
-                rows={4}
-                 fullWidth={false}
-                 sx={{ mt: 2 }}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={
-                  <CommonCheckbox
-                    name="termsAccepted"
-                    checked={formValues.termsAccepted}
-                    onChange={handleCheckboxChange}
-                  />
-                }
-                label="I accept the terms & conditions"
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              
-              <button type="submit" style={{ width: "100%", padding: "10px", fontSize: "16px" }}>
+              <button
+                type="submit"
+                style={{ width: "100%", padding: "10px", fontSize: "16px" }}
+              >
                 Submit
               </button>
-              
             </Grid>
           </Grid>
         </form>

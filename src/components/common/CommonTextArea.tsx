@@ -4,8 +4,10 @@ import React from "react";
 type CommonTextAreaProps = TextFieldProps & {
   label: string;
   name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string | number;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  multiline?: boolean;
+  minRows?: number;
   fullWidth?: boolean;
   sx?: object;
 };
@@ -15,20 +17,22 @@ const CommonTextArea: React.FC<CommonTextAreaProps> = ({
   name,
   value,
   onChange,
-  fullWidth = true,
+  multiline = true,      
+  minRows = 3,           
+  fullWidth = true,      
   sx = {},
-  ...rest
+  ...rest                
 }) => {
   return (
     <TextField
-      multiline
-      minRows={3}
       label={label}
       name={name}
       value={value}
       onChange={onChange}
+      multiline={multiline}
+      minRows={minRows}
       fullWidth={fullWidth}
-     sx={{ width: '100%'  }}
+      sx={{ width: "100%", ...sx }}
       {...rest}
     />
   );

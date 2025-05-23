@@ -31,7 +31,7 @@ export default function Login() {
       // Login successful
       localStorage.setItem("isAuthenticated", "true");
       localStorage.setItem("username", storedUser.username);
-      router.push("/CommonForm"); // navigate to CommonForm only after login success
+      router.push("/GoogleForm"); // navigate to CommonForm only after login success
     },
     [email, password, router]
   );

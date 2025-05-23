@@ -1,18 +1,18 @@
 "use client";
 
 import React from "react";
-import { TextField } from "@mui/material";
+import { TextField, TextFieldProps, SxProps, Theme } from "@mui/material";
 
-export interface CommonNumberFieldProps {
+interface CommonNumberFieldProps
+  extends Omit<TextFieldProps, "type" | "value" | "onChange"> {
   label: string;
   name: string;
   value: number | string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  required?: boolean;
   min?: number;
   max?: number;
-  fullWidth?: boolean; 
-  sx?: object; 
+  fullWidth?: boolean;
+  sx?: SxProps<Theme>;
 }
 
 const CommonNumberField: React.FC<CommonNumberFieldProps> = ({
@@ -20,23 +20,25 @@ const CommonNumberField: React.FC<CommonNumberFieldProps> = ({
   name,
   value,
   onChange,
-  required = false,
   min,
   max,
-  fullWidth = true, 
-  sx = {}, //
+  fullWidth = true,
+  sx = {},
+  required = false,
+  ...rest
 }) => {
   return (
     <TextField
+      type="number"
       label={label}
       name={name}
       value={value}
       onChange={onChange}
-      type="number"
       required={required}
+      fullWidth={fullWidth}
       inputProps={{ min, max }}
-      fullWidth={fullWidth} 
-       sx={{ width: '100%', height: '80px' }}
+      sx={sx}
+      {...rest}
     />
   );
 };
